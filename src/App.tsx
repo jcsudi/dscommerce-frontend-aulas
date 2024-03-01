@@ -1,10 +1,11 @@
 
-import './App.css'
 
-function App() {
+import ProductDetails from './routes/ProductDetails';
+
+
+export default function App() {
+  
   return (
-  <h1>DSCommerce</h1>
+  <ProductDetails/>
   );
 }
-
-export default App
