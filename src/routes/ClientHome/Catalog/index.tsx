@@ -4,10 +4,22 @@ import SearchBar from '../../../components/SearchBar';
 import CatalogCard from '../../../components/CatalogCard';
 import ButtonNextPage from '../../../components/ButtonNextPage';
 import * as productService from '../../../services/product-service';
+import { useEffect, useState } from 'react';
+import { ProductDTO } from '../../../components/models/product';
+//import axios from 'axios';
 
   export default function Catalog(){
-    return(
 
+    const [products, setProducts] = useState<ProductDTO[]>([]);
+
+    useEffect(() => {
+      productService.findAll()
+        .then(response => {
+          setProducts(response.data.content);
+        });
+    },[]);
+
+    return(
         <>
       
         <main>
@@ -16,7 +28,7 @@ import * as productService from '../../../services/product-service';
 
               <div className="dsc-catalog-cards dsc-mb20 dsc-mt20">
                 {
-                  productService.findAll().map(product =><CatalogCard key={product.id} product = {product}/>)
+                  products.map(product =><CatalogCard key={product.id} product = {product}/>)
                 }
               </div>
               <ButtonNextPage/>
