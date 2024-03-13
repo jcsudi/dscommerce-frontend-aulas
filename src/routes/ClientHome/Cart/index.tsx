@@ -12,7 +12,16 @@ export default function Cart() {
   function heandleClearClick(){
     cartService.clearCard();
     setCart(cartService.getCard());
+  }
 
+  function handleIncreaseItem(productId: number) {
+    cartService.increaseItem(productId);
+    setCart(cartService.getCard());
+  }
+
+  function handleDecreaseItem(productId: number) {
+    cartService.decreaseItem(productId);
+    setCart(cartService.getCard());
   }
 
     return(
@@ -36,9 +45,9 @@ export default function Cart() {
                   <div className="dsc-cart-item-description">
                     <h3>{item.name}</h3>
                     <div className="dsc-cart-item-quantity-container">
-                      <div className="dsc-cart-item-quantity-btn">-</div>
+                      <div onClick={() => handleDecreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">-</div>
                       <p>{item.quantity}</p>
-                      <div className="dsc-cart-item-quantity-btn">+</div>
+                      <div onClick={() => handleIncreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">+</div>
                     </div>
                   </div>
                 </div>
