@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './styles.css';
 
 type Props = {
-  onSearch: Function;
+  onSearch: (query: string) => void;
 
 }
 
@@ -11,13 +11,13 @@ export default function SearchBar({onSearch} : Props){
 
   const [text, setText] = useState("");
 
-  function handleSubmit(event: any) {
+  function handleSubmit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onSearch(text);
   
   }
 
-  function handleChange(event: any){
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>){
     setText(event.target.value);
 
   }
