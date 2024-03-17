@@ -2,26 +2,37 @@
 import './styles.css';
 import * as cartService from '../../../services/cart-service';
 import { OrderDTO} from '../../../components/models/order';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ContextCartCount } from '../../../utils/context-cart';
   
 export default function Cart() {
 
-  const [cart, setCart] = useState<OrderDTO>(cartService.getCard());
+  const [cart, setCart] = useState<OrderDTO>(cartService.getCart());
+
+  const {setContextCartCount} = useContext(ContextCartCount);
 
   function heandleClearClick(){
-    cartService.clearCard();
-    setCart(cartService.getCard());
+    cartService.clearCart();
+    updateCard()
+   
   }
 
   function handleIncreaseItem(productId: number) {
     cartService.increaseItem(productId);
-    setCart(cartService.getCard());
+    setCart(cartService.getCart());
   }
 
   function handleDecreaseItem(productId: number) {
     cartService.decreaseItem(productId);
-    setCart(cartService.getCard());
+    updateCard()
+  }
+
+  function updateCard(){
+    const newCart = cartService.getCart();
+    setCart(newCart);
+    setContextCartCount(newCart.items.length);
+
   }
 
     return(

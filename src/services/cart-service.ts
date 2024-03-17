@@ -8,7 +8,7 @@ export function saveCart(cart: OrderDTO){
 
 }
 
-export function getCard() : OrderDTO{
+export function getCart() : OrderDTO{
     return cartRepository.get()
 }
 
@@ -22,7 +22,7 @@ export function addProduct(product: ProductDTO) {
     }  
 }
 
-export function clearCard(){
+export function clearCart(){
     cartRepository.clear();
 }
 
