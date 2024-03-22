@@ -1,9 +1,10 @@
 import QueryString from "qs";
-import { CredentialsDTO } from "../components/models/auth";
+import { AccessTokenPayloadDTO, CredentialsDTO } from "../components/models/auth";
 import { CLIENT_ID, CLIENT_SECRET } from "../utils/system";
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/request";
 import * as accessTokenRepository from '../localstorage/acess-token-repository'; 
+import jwtDecode from "jwt-decode";
 
 export function loginRequest(loginData: CredentialsDTO) {
 
@@ -38,3 +39,21 @@ export function saveAcessToken(token: string) {
 export function getAccessToken(){
     return accessTokenRepository.get();
 }
+
+export function getAccessTokenPayload(): AccessTokenPayloadDTO | undefined {
+    try {
+    const token = accessTokenRepository.get();
+    return token == null ? undefined : (jwtDecode(token) as AccessTokenPayloadDTO);
+    } catch (error) {
+    return undefined;
+    }
+    }
+
+    export function isAuthenticated(): boolean {
+        const tokenPayload = getAccessTokenPayload();
+        if(tokenPayload && tokenPayload.exp * 1000 > Date.now()){
+            return true;
+        }
+        return false;
+       
+        }

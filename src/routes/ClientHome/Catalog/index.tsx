@@ -6,6 +6,7 @@ import ButtonNextPage from '../../../components/ButtonNextPage';
 import * as productService from '../../../services/product-service';
 import { useEffect, useState } from 'react';
 import { ProductDTO } from '../../../components/models/product';
+import { isAuthenticated } from '../../../services/auth-service';
 
 //import axios from 'axios';
 
@@ -27,6 +28,8 @@ type QueryParams = {
    
 
     useEffect(() => {
+
+      console.log("AUTENTICADO", isAuthenticated());
      
       productService.findPageRequest(queryParams.page, queryParams.name)
         .then(response => {
