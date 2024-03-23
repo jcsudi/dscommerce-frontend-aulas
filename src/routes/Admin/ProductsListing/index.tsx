@@ -4,6 +4,8 @@ import deleteIcon from '../../../assets/delete.svg';
 import * as productService from '../../../services/product-service';
 import { useEffect, useState } from 'react';
 import { ProductDTO } from '../../../components/models/product';
+import SearchBar from '../../../components/SearchBar';
+import ButtonNextPage from '../../../components/ButtonNextPage';
 
 type QueryParams = {
     page: number;
@@ -31,6 +33,16 @@ export default function ProductsListing() {
           });
       },[queryParams]);
 
+      function handleSearch(searchText : string){
+        setProducts([]);
+        setQueryParams({...queryParams, page: 0, name:searchText});
+  
+      }
+
+      function handleNextPageClick(){
+        setQueryParams({...queryParams, page: queryParams.page +1})
+      }
+
     return(
         <main>
         <section id="product-listing-section" className="dsc-container">
@@ -40,11 +52,7 @@ export default function ProductsListing() {
             <div className="dsc-btn dsc-btn-white">Novo</div>
           </div>
   
-          <form className="dsc-search-bar">
-            <button type="submit">🔎︎</button>
-            <input type="text" placeholder="Nome do produto" />
-            <button type="reset">🗙</button>
-          </form>
+           <SearchBar onSearch={handleSearch}/>
   
           <table className="dsc-table dsc-mb20 dsc-mt20">
             <thead>
@@ -60,7 +68,7 @@ export default function ProductsListing() {
             <tbody>
                 {
                     products.map(product => (
-                        <tr>
+                        <tr key={product.id}>
                         <td className="dsc-tb576">{product.id}</td>
                         <td><img className="dsc-product-listing-image" src={product.imgUrl} alt={product.name}/></td>
                         <td className="dsc-tb768">{product.price}</td>
@@ -73,8 +81,14 @@ export default function ProductsListing() {
                 }   
             </tbody>
           </table>
-  
-          <div className="dsc-btn-next-page">Carregar mais</div>
+           
+           {
+             !isLastPage&&
+             <div onClick={handleNextPageClick}>
+             <ButtonNextPage/>
+             </div>
+           }
+          
         </section>
       </main>
 
