@@ -4,7 +4,7 @@ export class OrderDTO {
     get total(): number {
     let sum = 0;
     this.items.forEach(item => {
-    sum += item.subTotal;
+    sum += item.subtotal;
     })
     return sum;
     }
@@ -17,7 +17,7 @@ export class OrderDTO {
     public price: number,
     public imgUrl: string
     ) {}
-    get subTotal() : number {
+    get subtotal() : number {
     return this.price * this.quantity;
     }
     }

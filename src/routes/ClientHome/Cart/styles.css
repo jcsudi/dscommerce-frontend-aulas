@@ -38,6 +38,7 @@
     font-size: 12px;
     font-weight: 700;
     color: var(--dsc-color-font-secondary);
+    padding-top: 10px;
   }
   
   .dsc-cart-item-description {
@@ -64,10 +65,7 @@
       justify-content: space-between;
     }
   
-    .dsc-cart-item-right {
-      padding-top: 10px;
-    }
-  
+    
     .dsc-cart-total-container h3 {
       text-align: right;
     }
