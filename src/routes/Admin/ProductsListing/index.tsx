@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ProductDTO } from '../../../components/models/product';
 import SearchBar from '../../../components/SearchBar';
 import ButtonNextPage from '../../../components/ButtonNextPage';
+import DialogInfo from '../../../components/DialogInfo';
 
 type QueryParams = {
     page: number;
@@ -13,6 +14,13 @@ type QueryParams = {
   }
 
 export default function ProductsListing() {
+
+    const[dialogInfoData, setDialodInfoData] = useState({
+        visible: false,
+        message: "Operação com sucesso",
+
+
+    })
 
     const [isLastPage, setIsLastPage] = useState(false);
     
@@ -41,6 +49,16 @@ export default function ProductsListing() {
 
       function handleNextPageClick(){
         setQueryParams({...queryParams, page: queryParams.page +1})
+      }
+
+      function handleDialogInfoClose() {
+        setDialodInfoData({...dialogInfoData, visible: false});
+
+      }
+
+      function handleDeleteClick() {
+        setDialodInfoData({...dialogInfoData, visible: true});
+
       }
 
     return(
@@ -74,7 +92,7 @@ export default function ProductsListing() {
                         <td className="dsc-tb768">{product.price}</td>
                         <td className="dsc-txt-left">{product.name}</td>
                         <td><img className="dsc-product-listing-btn" src={editIcon} alt="Editar"/></td>
-                        <td><img className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
+                        <td><img onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
                       </tr>
 
                     ))
@@ -90,7 +108,15 @@ export default function ProductsListing() {
            }
           
         </section>
-      </main>
+        {
+            dialogInfoData.visible &&
+            <DialogInfo  
+               message={dialogInfoData.message} 
+               onDialogClose={handleDialogInfoClose}/>
 
+        }
+
+      
+      </main>
     );
 }
