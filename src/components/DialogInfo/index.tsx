@@ -2,7 +2,7 @@ import ButtonPrimary from "../ButtonPrimary";
 
 type Props = {
     message: string,
-    onDialogClose: Function;
+    onDialogClose: () => void;
 }
 
 export default function DialogInfo({message, onDialogClose}: Props) {
