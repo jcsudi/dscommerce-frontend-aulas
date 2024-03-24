@@ -16,13 +16,14 @@ type QueryParams = {
 
 export default function ProductsListing() {
 
-    const [dialogInfoData, setDialodInfoData] = useState({
+    const [dialogInfoData, setDialogInfoData] = useState({
         visible: false,
         message: "Operação com sucesso!"
     })
 
     const [dialogConfirmationData, setDialogConfirmationData] = useState({
         visible: false,
+        id: 0,
         message: "Tem certeza?"
     })
 
@@ -56,17 +57,30 @@ export default function ProductsListing() {
       }
 
       function handleDialogInfoClose() {
-        setDialodInfoData({...dialogInfoData, visible: false});
+        setDialogInfoData({...dialogInfoData, visible: false});
 
       }
 
-      function handleDeleteClick() {
-        setDialogConfirmationData({...dialogConfirmationData, visible: true});
+      function handleDeleteClick(productId: number) {
+        setDialogConfirmationData({...dialogConfirmationData, id: productId, visible: true});
 
       }
 
-      function handleDialogConfirmationAnswer(answer: boolean) {
-        console.log("Resposta", answer);
+      function handleDialogConfirmationAnswer(answer: boolean, productId: number) {
+        if(answer) {
+            productService.deleteById(productId)
+                .then(() => {
+                    setProducts([]);
+                    setQueryParams({...queryParams, page: 0});
+                })
+                .catch(error => {
+                    setDialogInfoData({
+                        visible: true,
+                        message: error.response.data.error
+                    })
+                });
+        }
+       
         setDialogConfirmationData({...dialogConfirmationData, visible: false});
 
       }
@@ -102,7 +116,7 @@ export default function ProductsListing() {
                         <td className="dsc-tb768">{product.price}</td>
                         <td className="dsc-txt-left">{product.name}</td>
                         <td><img className="dsc-product-listing-btn" src={editIcon} alt="Editar"/></td>
-                        <td><img onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
+                        <td><img onClick={() => handleDeleteClick(product.id)} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
                       </tr>
 
                     ))
@@ -128,6 +142,7 @@ export default function ProductsListing() {
          {
             dialogConfirmationData.visible &&
             <DialogConfirmation 
+               id={dialogConfirmationData.id}
                message={dialogConfirmationData.message} 
                onDialogAnswer={handleDialogConfirmationAnswer}/>
         }
