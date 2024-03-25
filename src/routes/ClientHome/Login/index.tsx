@@ -15,22 +15,22 @@ export default function Login(){
 
     const [formData, setFormData] = useState<any>({
       username: {
-      value: "",
-      id: "username",
-      name: "username",
-      type: "text",
-      placeholder: "Email",
-      validation: function (value: string) {
-      return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value.toLowerCase());
+        value: "",
+        id: "username",
+        name: "username",
+        type: "text",
+        placeholder: "Email",
+        validation: function (value: string) {
+            return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value.toLowerCase());
       },
       message: "Favor informar um email válido",
       },
       password: {
-      value: "",
-      id: "password",
-      name: "password",
-      type: "password",
-      placeholder: "Senha",
+        value: "",
+        id: "password",
+        name: "password",
+        type: "password",
+        placeholder: "Senha",
       }
       })
 
